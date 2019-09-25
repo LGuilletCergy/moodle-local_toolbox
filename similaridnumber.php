@@ -32,6 +32,9 @@
  * Version file
  */
 
+require_once('../../config.php');
+require_login();
+
 if (is_siteadmin()) {
 
     global $DB;
