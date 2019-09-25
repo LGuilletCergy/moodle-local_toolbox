@@ -45,8 +45,10 @@ if (is_siteadmin()) {
 
     foreach ($listidnumbersobject as $idnumberobject) {
 
+        $emailstudent = "%@etu.u-cergy.fr%";
+
         $sqllistusers = "SELECT * FROM {user} idnumber LIKE $idnumberobject->idnumber AND auth LIKE 'cas' "
-                    . "AND suspended = 0 AND deleted = 0 AND email LIKE '%@etu.u-cergy.fr%'";
+                    . "AND suspended = 0 AND deleted = 0 AND email LIKE $emailstudent";
 
         if ($DB->count_records_sql($sqllistusers) > 1) {
 
