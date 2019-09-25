@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -28,11 +27,27 @@
  * @copyright 2019 Laurent Guillet <laurent.guillet@u-cergy.fr>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
- * File : version.php
- * Version file
+ * File : provider.php
+ * RGPD file
  */
+
+namespace local_toolbox\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_toolbox';
-$plugin->version = 2019092501;
-$plugin->requires = 2017111300;
+use core_privacy\local\metadata\collection;
+
+class provider implements
+    // This plugin does not store any personal user data.
+    \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}

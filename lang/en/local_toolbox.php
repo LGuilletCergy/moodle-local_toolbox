@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -28,11 +27,10 @@
  * @copyright 2019 Laurent Guillet <laurent.guillet@u-cergy.fr>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
- * File : version.php
- * Version file
+ * File : lang/en/local_toolbox.php
+ * English language file
  */
-defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_toolbox';
-$plugin->version = 2019092501;
-$plugin->requires = 2017111300;
+$string['pluginname'] = "Tool box";
+$string['privacy:metadata'] = 'The plugin does not store personal data.';
+$string['local_scriptdroit:manage'] = 'Can use the tool box';

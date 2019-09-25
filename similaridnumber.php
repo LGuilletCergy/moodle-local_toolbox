@@ -39,8 +39,24 @@ if (is_siteadmin()) {
 
     global $DB;
 
-    $sqllistidnumbers = "SELECT DISTINCT idnumber FROM {user} WHERE auth LIKE 'cas' AND suspended = 0 AND deleted = 0";
-    $listidnumbers = $DB->get_records_sql($sqllistidnumbers);
+    $sqllistidnumbersobject = "SELECT DISTINCT idnumber FROM {user} WHERE idnumber NOT LIKE '' AND auth LIKE 'cas' "
+            . "AND suspended = 0 AND deleted = 0";
+    $listidnumbersobject = $DB->get_records_sql($sqllistidnumbersobject);
 
-    print_object ($listidnumbers);
+    foreach ($listidnumbersobject as $idnumberobject) {
+
+        if ($DB->count_records('user', array('idnumber' => $idnumberobject->idnumber,
+            'auth' => 'cas', 'suspended' => 0, 'deleted' => 0)) > 1) {
+
+            $listusers = $DB->get_records('user', array('idnumber' => $idnumberobject->idnumber,
+                'auth' => 'cas', 'suspended' => 0, 'deleted' => 0));
+
+            foreach ($listusers as $user) {
+
+                echo "$user->username;$user->idnumber;$user->firstname;$user->lastname;$user->email\n";
+            }
+
+            echo "\n\n";
+        }
+    }
 }
