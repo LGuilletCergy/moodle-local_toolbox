@@ -48,8 +48,13 @@ if (is_siteadmin()) {
         if ($DB->count_records('user', array('idnumber' => $idnumberobject->idnumber,
             'auth' => 'cas', 'suspended' => 0, 'deleted' => 0)) > 1) {
 
-            $listusers = $DB->get_records('user', array('idnumber' => $idnumberobject->idnumber,
-                'auth' => 'cas', 'suspended' => 0, 'deleted' => 0));
+            $sqllistusers = "SELECT * FROM {user} idnumber LIKE $idnumberobject->idnumber AND auth LIKE 'cas' "
+                    . "AND suspended = 0 AND deleted = 0 AND email LIKE '%@etu.u-cergy.fr%'";
+
+            $listusers = $DB->get_records_sql($sqllistusers);
+
+//            $listusers = $DB->get_records('user', array('idnumber' => $idnumberobject->idnumber,
+//                'auth' => 'cas', 'suspended' => 0, 'deleted' => 0));
 
             foreach ($listusers as $user) {
 
