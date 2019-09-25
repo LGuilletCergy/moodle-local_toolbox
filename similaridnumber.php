@@ -47,10 +47,13 @@ if (is_siteadmin()) {
 
         $emailstudent = "@etu.u-cergy.fr";
 
-        $sqllistusers = "SELECT * FROM {user} WHERE idnumber LIKE $idnumberobject->idnumber AND auth LIKE 'cas' "
-                    . "AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailstudent%'";
+        $sqlcountlistusers = "SELECT COUNT(id) FROM {user} WHERE idnumber LIKE $idnumberobject->idnumber "
+                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailstudent%'";
 
-        if ($DB->count_records_sql($sqllistusers) > 1) {
+        if ($DB->count_records_sql($sqlcountlistusers) > 1) {
+
+            $sqllistusers = "SELECT * FROM {user} WHERE idnumber LIKE $idnumberobject->idnumber "
+                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailstudent%'";
 
             $listusers = $DB->get_records_sql($sqllistusers);
 
