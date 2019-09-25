@@ -53,10 +53,10 @@ if (is_siteadmin()) {
 
             foreach ($listusers as $user) {
 
-                echo "$user->username;$user->idnumber;$user->firstname;$user->lastname;$user->email\n";
+                echo "$user->username;$user->idnumber;$user->firstname;$user->lastname;$user->email<br>";
             }
 
-            echo "\n\n";
+            echo "<br><br>";
         }
     }
 }
