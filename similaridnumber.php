@@ -46,14 +46,15 @@ if (is_siteadmin()) {
     foreach ($listidnumbersobject as $idnumberobject) {
 
         $emailstudent = "@etu.u-cergy.fr";
+        $emailteacher = "@u-cergy.fr";
 
         $sqlcountlistusers = "SELECT COUNT(id) FROM {user} WHERE idnumber LIKE $idnumberobject->idnumber "
-                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailstudent%'";
+                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailteacher%'";
 
         if ($DB->count_records_sql($sqlcountlistusers) > 1) {
 
             $sqllistusers = "SELECT * FROM {user} WHERE idnumber LIKE $idnumberobject->idnumber "
-                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailstudent%'";
+                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailteacher%'";
 
             $listusers = $DB->get_records_sql($sqllistusers);
 
