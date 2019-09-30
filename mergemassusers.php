@@ -33,6 +33,7 @@
  */
 
 require_once('../../config.php');
+require_once('/admin/tool/mergeusers/lib/mergeusertool.php');
 require_login();
 
 if (is_siteadmin()) {
