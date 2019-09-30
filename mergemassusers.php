@@ -33,8 +33,10 @@
  */
 
 require_once('../../config.php');
-require_once('/admin/tool/mergeusers/lib/mergeusertool.php');
+require_once("$CFG->dirroot/admin/tool/mergeusers/lib/mergeusertool.php");
+
 require_login();
+require_capability('tool/mergeusers:mergeusers', context_system::instance());
 
 if (is_siteadmin()) {
 
