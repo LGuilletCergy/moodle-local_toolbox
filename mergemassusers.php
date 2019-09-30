@@ -64,7 +64,7 @@ if (is_siteadmin()) {
 
             foreach ($listusers as $user) {
 
-                if (substr($user, 0, 2) == "e-") {
+                if (substr($user->username, 0, 2) == "e-") {
 
                     $touser = $user;
                 } else {
@@ -73,14 +73,17 @@ if (is_siteadmin()) {
                 }
             }
 
-            $mut = new MergeUserTool();
-            $mut->merge($touser->id, $fromuser->id);
-            $SESSION->mut = NULL;
+            if (isset($touser) && isset($fromuser)) {
 
-            print_object($touser);
-            print_object($fromuser);
+                $mut = new MergeUserTool();
+                $mut->merge($touser->id, $fromuser->id);
+                $SESSION->mut = NULL;
 
-            exit;
+                print_object($touser);
+                print_object($fromuser);
+
+                exit;
+            }
         }
     }
 }
