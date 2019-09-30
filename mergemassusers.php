@@ -28,8 +28,8 @@
  * @copyright 2019 Laurent Guillet <laurent.guillet@u-cergy.fr>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
- * File : similaridnumber.php
- * List users with similar idnumbers
+ * File : mergemassusers.php
+ * Merge lots of users with similar idnumbers
  */
 
 require_once('../../config.php');
@@ -37,7 +37,7 @@ require_login();
 
 if (is_siteadmin()) {
 
-    global $DB;
+
 
     $sqllistidnumbersobject = "SELECT DISTINCT idnumber FROM {user} WHERE idnumber NOT LIKE '' AND auth LIKE 'cas' "
             . "AND suspended = 0 AND deleted = 0";
@@ -46,27 +46,38 @@ if (is_siteadmin()) {
     foreach ($listidnumbersobject as $idnumberobject) {
 
         $emailstudent = "@etu.u-cergy.fr";
-        $emailteacher = "@u-cergy.fr";
 
         $sqlcountlistusers = "SELECT COUNT(id) FROM {user} WHERE idnumber LIKE $idnumberobject->idnumber "
-                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailteacher%'";
+                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailstudent%'";
 
         if ($DB->count_records_sql($sqlcountlistusers) > 1) {
 
+            // A ce stade, j'ai un étudiant et j'explore ces multiples comptes.
+
             $sqllistusers = "SELECT * FROM {user} WHERE idnumber LIKE $idnumberobject->idnumber "
-                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailteacher%'";
+                . "AND auth LIKE 'cas' AND suspended = 0 AND deleted = 0 AND email LIKE '%$emailstudent%'";
 
             $listusers = $DB->get_records_sql($sqllistusers);
 
-//            $listusers = $DB->get_records('user', array('idnumber' => $idnumberobject->idnumber,
-//                'auth' => 'cas', 'suspended' => 0, 'deleted' => 0));
-
             foreach ($listusers as $user) {
 
-                echo "$user->username;$user->idnumber;$user->firstname;$user->lastname;$user->email<br>";
+                if (substr($user, 0, 2) == "e-") {
+
+                    $touser = $user;
+                } else {
+
+                    $fromuser = $user;
+                }
             }
 
-            echo "<br><br>";
+            $mut = new MergeUserTool();
+            $mut->merge($touser->id, $fromuser->id);
+            $SESSION->mut = NULL;
+
+            print_object($touser);
+            print_object($fromuser);
+
+            exit;
         }
     }
 }
