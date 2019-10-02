@@ -82,6 +82,9 @@ if (is_siteadmin()) {
                 print_object($touser);
                 print_object($fromuser);
             }
+
+            unset($touser);
+            unset($fromuser);
         }
     }
 }
