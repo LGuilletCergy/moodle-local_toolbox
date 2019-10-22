@@ -41,7 +41,7 @@ if (is_siteadmin()) {
 
     global $DB;
 
-    $listsuspendedusersenrolments = $DB->get_records('user_enrolments', array('status' => 0));
+    $listsuspendedusersenrolments = $DB->get_records('user_enrolments', array('status' => 1));
 
     foreach ($listsuspendedusersenrolment as $suspenduserenrolment) {
 
