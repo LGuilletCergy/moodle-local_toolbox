@@ -49,21 +49,37 @@ if (is_siteadmin()) {
 
         if ($enrolmethod->enrol == 'cohort') {
 
-            $cohortinfo = $DB->get_record('local_cohortmanager_info', array('cohortid' => $enrolmethod->customint1));
+            if ($DB->record_exists('local_cohortmanager_info', array('cohortid' => $enrolmethod->customint1))) {
 
-            if ($cohortinfo->typecohort == 'group') {
+                $cohortinfo = $DB->get_record('local_cohortmanager_info', array('cohortid' => $enrolmethod->customint1));
 
+                if ($cohortinfo->typecohort == 'group') {
+
+                    if ($DB->record_exists('enrol', array('courseid'=>$enrolmethod->courseid, 'enrol'=>'manual'))) {
+
+                        $studentroleid = $DB->get_record('role', array('shortname' => 'student'))->id;
+
+                        $plugininstance = $DB->get_record('enrol',
+                                array('courseid' => $enrolmethod->courseid, 'enrol' => 'manual'));
+
+                        $plugin = enrol_get_plugin('manual');
+
+                        $plugin->enrol_user($plugininstance, $suspenduserenrolment->userid, $studentroleid);
+                    }
+                }
+            } else {
+                
                 if ($DB->record_exists('enrol', array('courseid'=>$enrolmethod->courseid, 'enrol'=>'manual'))) {
 
-                    $studentroleid = $DB->get_record('role', array('shortname' => 'student'))->id;
+                        $studentroleid = $DB->get_record('role', array('shortname' => 'student'))->id;
 
-                    $plugininstance = $DB->get_record('enrol',
-                            array('courseid' => $enrolmethod->courseid, 'enrol' => 'manual'));
+                        $plugininstance = $DB->get_record('enrol',
+                                array('courseid' => $enrolmethod->courseid, 'enrol' => 'manual'));
 
-                    $plugin = enrol_get_plugin('manual');
+                        $plugin = enrol_get_plugin('manual');
 
-                    $plugin->enrol_user($plugininstance, $suspenduserenrolment->userid, $studentroleid);
-                }
+                        $plugin->enrol_user($plugininstance, $suspenduserenrolment->userid, $studentroleid);
+                    }
             }
         }
     }
