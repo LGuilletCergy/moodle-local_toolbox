@@ -49,7 +49,7 @@ if (is_siteadmin()) {
 
         if ($enrolmethod->enrol == 'cohort') {
 
-            $cohortinfo = $DB->get_record('local_cohortmanager_info');
+            $cohortinfo = $DB->get_record('local_cohortmanager_info', array('cohortid' => $enrolmethod->customint1));
 
             if ($cohortinfo->typecohort == 'group') {
 
